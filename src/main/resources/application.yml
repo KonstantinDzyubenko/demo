@@ -1,0 +1,8 @@
+spring:
+  jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  jpa.generate-ddl: true
+#  jpa.hibernate.ddl-auto: create
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sales_db_2
+    username: listenexorcist
+    password: y686ah178
