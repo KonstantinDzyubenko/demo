@@ -3,11 +3,9 @@ package com.project.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class SalesJdbcRepository {
@@ -24,10 +22,21 @@ public class SalesJdbcRepository {
 
     public void getInfoById(int id) {
         SalesJdbc salesJdbc = jdbcTemplate.queryForObject("SELECT * FROM public.sales WHERE id = " + id + ";", new BeanPropertyRowMapper<>(SalesJdbc.class));
-        System.out.println("id = " + salesJdbc.getId());
-        System.out.println("sum = " + salesJdbc.getSum());
-        System.out.println("admission date = " + salesJdbc.getAdmissionDate());
-        System.out.println("sale date = " + salesJdbc.getSaleDate());
-        System.out.println("product id = " + salesJdbc.getProductId());
+        System.out.println(salesJdbc.toString());
+    }
+
+    public void getInfoByGreaterSum(double sum) {
+        List<SalesJdbc> list = jdbcTemplate.query("SELECT * FROM public.sales WHERE sum > " + sum + ";", new BeanPropertyRowMapper<>(SalesJdbc.class));
+        for (SalesJdbc sale : list) {
+            System.out.println(sale.toString());
+        }
+    }
+
+    public void addSaleInfo(SalesJdbc sale) {
+        jdbcTemplate.execute("INSERT INTO public.sales (admission_date, product_id, sale_date, sum) VALUES (" +
+                "'" + sale.getAdmissionDate().getYear() + "-" + sale.getAdmissionDate().getMonthValue() + "-" + sale.getAdmissionDate().getDayOfMonth() + "', " +
+                sale.getProductId() + ", " +
+                "'" + sale.getSaleDate().getYear() + "-" + sale.getSaleDate().getMonthValue() + "-" + sale.getSaleDate().getDayOfMonth() + "', " +
+                sale.getSum() + ");");
     }
 }
