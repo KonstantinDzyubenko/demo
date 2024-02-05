@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Workplace</title>
+    <style>
+        header{font-size:200%; font-weight:bold; text-align:center; background-color:#A9A9A9;}
+    </style>
+</head>
+<header>TechIndustry</header>
+<body>
+<div>Current user:</div>
+<div th:text="${session.userName}"></div>
+<table frame="border" border="5">
+    <tr align="center">
+        <th>id</th>
+        <th>sum</th>
+        <th>admission date</th>
+        <th>sale date</th>
+        <th>product id</th>
+    </tr>
+    <tr align="center" th:each="sale: ${sales}">
+        <td th:text="${sale.id}"/>
+        <td th:text="${sale.sum}"/>
+        <td th:text="${sale.admissionDate}"/>
+        <td th:text="${sale.saleDate}"/>
+        <td th:text="${sale.productId}"/>
+    </tr>
+</table>
+<form th:action="@{/addSale}" method="post">
+    <div><label> Sum: <input type="text" name="sum"/></label></div>
+    <div><label> Admission date: <input type="text" name="admissionDate"/></label></div>
+    <div><label> Sale date: <input type="text" name="saleDate"/></label></div>
+    <div><label> Product id: <input type="text" name="productId"/></label></div>
+    <div><input type="submit" value="Add new sale"></div>
+</form>
+</body>
+</html>
